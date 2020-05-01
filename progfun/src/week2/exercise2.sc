@@ -28,4 +28,20 @@ sumInts(0, 5)
 sum(cube)(0, 3)
 
 def product(f: Int => Int)(a: Int, b: Int): Int =
-  if (a > b) 1 else 2
+  if (a > b) 1 else f(a) * product(f)(a + 1, b)
+
+product(id)(1, 3)
+product(x => x)(1, 3)
+product(id)(0, 3)
+product(id)(-1, 2)
+product(square)(1, 3)  // 1*1*2*2*3*3 = 36
+product(square)(2, 3)  // 36
+product(cube)(2, 5)    // 1,728,000
+
+// Write factorial in terms of product fn
+def factorial(n: Int) =
+  product(x => x)(1, n)
+
+factorial(3)
+factorial(4)
+factorial(0)
