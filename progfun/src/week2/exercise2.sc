@@ -45,3 +45,22 @@ def factorial(n: Int) =
 factorial(3)
 factorial(4)
 factorial(0)
+
+// Write a function that generalizes sum and product
+def operate(g: (Int, Int) => Int, f: Int => Int)(a: Int, b: Int): Int =
+  if (a > b) 0 - g(a - b, b - a) else g(f(a), operate(g, f)(a + 1, b))
+
+operate((x, y) => x + y, id)(1, 3)
+operate((x, y) => x * y, id)(1, 3)
+def add(x: Int, y: Int) = x + y
+def mult(x: Int, y: Int) = x * y
+operate(add, id)(1, 3)
+operate(mult, id)(1, 3)
+operate(add, id)(0, 5)
+operate(add, square)(0, 3)
+operate(add, cube)(0, 3)
+operate(mult, id)(0, 3)
+operate(mult, id)(-1, 2)
+operate(mult, square)(1, 3)
+operate(mult, square)(2, 3)
+operate(mult, cube)(2, 5)
