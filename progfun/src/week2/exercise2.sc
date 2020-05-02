@@ -64,3 +64,29 @@ operate(mult, id)(-1, 2)
 operate(mult, square)(1, 3)
 operate(mult, square)(2, 3)
 operate(mult, cube)(2, 5)
+
+// Try again with currying chained all the way down
+def op(g: (Int, Int) => Int)(f: Int => Int)(a: Int, b: Int): Int =
+  if (a > b) 0 - g(a - b, b - a)
+  else g(f(a), op(g)(f)(a + 1, b))
+
+op(add)(id)(1, 3)
+op(mult)(id)(1, 3)
+op(add)(id)(0, 5)
+op(add)(square)(0, 3)
+op(add)(cube)(0, 3)
+op(mult)(id)(0, 3)
+op(mult)(id)(-1, 2)
+op(mult)(square)(1, 3)
+op(mult)(square)(2, 3)
+op(mult)(cube)(2, 5)
+
+def genSum = op(add) _
+def genProd = op(mult) _
+def sInts = genSum(id)
+def genFact(n: Int) = genProd(id)(1, n)
+sInts(0, 5)
+sInts(-2, 3)
+genFact(3)
+genFact(4)
+genFact(0)
