@@ -23,7 +23,7 @@ def sum(f: Int => Int)(a: Int, b: Int): Int =
 
 sum(id)(0, 5)
 sum(x => x)(0, 5)
-def sumInts = sum(id)(_,_)
+def sumInts = sum(id) _
 sumInts(0, 5)
 sum(cube)(0, 3)
 
@@ -90,3 +90,16 @@ sInts(-2, 3)
 genFact(3)
 genFact(4)
 genFact(0)
+
+// Solution from the lecture: mapReduce... similar to my operate fn
+def mapReduce(f: Int => Int, combine: (Int, Int) => Int, zero: Int)(a: Int, b: Int): Int =
+  if (a > b) zero
+  else combine(f(a), mapReduce(f, combine, zero)(a + 1, b))
+
+def prod(f: Int => Int)(a: Int, b: Int): Int = mapReduce(f, (x, y) => x * y, 1)(a, b)
+
+prod(square)(1, 3)
+
+def mrFact(n: Int) = prod(x => x)(1, n)
+
+mrFact(5)
