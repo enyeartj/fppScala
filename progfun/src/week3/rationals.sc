@@ -21,6 +21,10 @@ class Rational(x: Int, y: Int) {
   numer and denom only get calculated once. Good if used frequently.
    */
 
+  def less(that: Rational) = numer * that.denom < that.numer * denom
+
+  def max(that: Rational) = if (this.less(that)) that else this
+
   // add takes one argument, the other Rational that is being added is itself
   def add(that: Rational) =
     new Rational(
@@ -69,3 +73,5 @@ x.sub(y).sub(z)
 
 x.add(y).mul(z)
 y.add(y)
+x.less(y)
+x.max(y)
