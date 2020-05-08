@@ -1,6 +1,25 @@
 class Rational(x: Int, y: Int) {
-  def numer = x
-  def denom = y
+  private def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
+  private val g = gcd(x, y)
+  def numer = x / g
+  def denom = y / g
+
+  /* Alternative Constructor 1:
+  private def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
+  def numer = x / gcd(x, y)
+  def denom = y / gcd(x, y)
+
+  drop the g val and calculate directly. Could be slow if numer and denom
+  are called frequently
+   */
+
+  /* Alternative Constructor 2:
+  private def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
+  val numer = x / gcd(x, y)
+  val denom = y / gcd(x, y)
+
+  numer and denom only get calculated once. Good if used frequently.
+   */
 
   // add takes one argument, the other Rational that is being added is itself
   def add(that: Rational) =
@@ -49,3 +68,4 @@ val z = new Rational(3, 2)
 x.sub(y).sub(z)
 
 x.add(y).mul(z)
+y.add(y)
