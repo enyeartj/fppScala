@@ -24,12 +24,12 @@ class Rational(x: Int, y: Int) {
   numer and denom only get calculated once. Good if used frequently.
    */
 
-  def less(that: Rational) = numer * that.denom < that.numer * denom
+  def < (that: Rational) = numer * that.denom < that.numer * denom
 
-  def max(that: Rational) = if (this.less(that)) that else this
+  def max(that: Rational) = if (this < that) that else this
 
   // add takes one argument, the other Rational that is being added is itself
-  def add(that: Rational) =
+  def + (that: Rational) =
     new Rational(
       numer * that.denom + that.numer * denom,
       denom * that.denom
@@ -37,17 +37,17 @@ class Rational(x: Int, y: Int) {
 
   // also:
   //   def neg: Rational = new Rational(-numer, denom)
-  def neg = new Rational(-numer, denom)
+  def unary_- = new Rational(-numer, denom)
 
-  def sub(that: Rational) = add(that.neg)
+  def - (that: Rational) = this + -that
 
-  def mul(that: Rational) =
+  def * (that: Rational) =
     new Rational(
       numer * that.numer,
       denom * that.denom
     )
 
-  def div(that: Rational) =
+  def / (that: Rational) =
     new Rational(
       numer * that.denom,
       denom * that.numer
@@ -64,22 +64,20 @@ x.numer
 x.denom
 
 val y = new Rational(2, 3)
-x.add(y)
+x + y
+-x
 
-x.neg
-
-y.sub(x)
-
+y - x
 val x = new Rational(1, 3)
 val y = new Rational(5, 7)
 val z = new Rational(3, 2)
 
 // x - y - z
-x.sub(y).sub(z)
+x - y - z
 
-x.add(y).mul(z)
-y.add(y)
-x.less(y)
-x.max(y)
+x + y * z
+y + y
+x < y
+x max y
 //val strange = new Rational(1, 0)
 val five = new Rational(5)
