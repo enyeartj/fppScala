@@ -42,7 +42,7 @@ trait FunSets extends FunSetsInterface {
   /**
    * Returns the subset of `s` for which `p` holds.
    */
-  def filter(s: FunSet, p: Int => Boolean): FunSet = x => (contains(s, x) && contains(p, x))
+  def filter(s: FunSet, p: Int => Boolean): FunSet = intersect(s, p)
 
 
   /**
