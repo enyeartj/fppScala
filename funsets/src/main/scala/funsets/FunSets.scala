@@ -55,11 +55,11 @@ trait FunSets extends FunSetsInterface {
    */
   def forall(s: FunSet, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (???) ???
-      else if (???) ???
-      else iter(???)
+      if (a > bound || a < -bound) true
+      else if (contains(s, a) && !contains(filter(s, p), a)) false
+      else iter(a + 1)
     }
-    iter(???)
+    iter(-bound)
   }
 
   /**

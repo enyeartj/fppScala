@@ -155,6 +155,22 @@ class FunSetSuite {
     }
   }
 
+  @Test def `forall returns true for sets that match predicate`: Unit = {
+    new TestSets {
+      assert(forall(union_all, x => (x > 0)), "All elements of {1, 2, 3} > 0")
+      assert(forall(union_all, x => (x < 4)), "All elements of {1, 2, 3} < 4")
+    }
+  }
+
+  @Test def `forall returns false for sets that don't match predicate`: Unit = {
+    new TestSets {
+      assert(!forall(union_all, x => (x < 0)), "All elements of {1, 2, 3} < 0")
+      assert(!forall(union_all, x => (x == 2)), "All elements of {1, 2, 3} == 2")
+      assert(!forall(union_all, x => (x < 3)), "All elements of {1, 2, 3} < 3")
+      assert(!forall(union_all, x => (x > 1)), "All elements of {1, 2, 3} > 1")
+    }
+  }
+
 
   @Rule def individualTestTimeout = new org.junit.rules.Timeout(10 * 1000)
 }
