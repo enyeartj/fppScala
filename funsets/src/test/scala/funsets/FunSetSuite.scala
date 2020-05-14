@@ -171,7 +171,7 @@ class FunSetSuite {
     }
   }
 
-  @Ignore("not ready yet") @Test def `exists returns true for sets with element that match predicate`: Unit = {
+  @Test def `exists returns true for sets with element that match predicate`: Unit = {
     new TestSets {
       assert(exists(union_all, x => (x < 2)), "There exists an element in {1, 2, 3} < 2")
       assert(exists(union_all, x => (x == 2)), "There exists an element in {1, 2, 3} == 2")
@@ -180,7 +180,7 @@ class FunSetSuite {
     }
   }
 
-  @Ignore("not ready yet") @Test def `exists returns false for sets without an element that matches predicate`: Unit = {
+  @Test def `exists returns false for sets without an element that matches predicate`: Unit = {
     new TestSets {
       assert(!exists(union_all, x => (x < 1)), "There does not exist an element in {1, 2, 3} < 1")
       assert(!exists(union_all, x => (x == 5)), "There does not exist an element in {1, 2, 3} == 5")
