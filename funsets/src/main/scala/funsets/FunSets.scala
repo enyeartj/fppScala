@@ -1,5 +1,7 @@
 package funsets
 
+import scala.annotation.tailrec
+
 /**
  * 2. Purely Functional Sets.
  */
@@ -54,8 +56,9 @@ trait FunSets extends FunSetsInterface {
    * Returns whether all bounded integers within `s` satisfy `p`.
    */
   def forall(s: FunSet, p: Int => Boolean): Boolean = {
+    @tailrec
     def iter(a: Int): Boolean = {
-      if (a > bound || a < -bound) true
+      if (a > bound) true
       else if (contains(s, a) && !contains(filter(s, p), a)) false
       else iter(a + 1)
     }
