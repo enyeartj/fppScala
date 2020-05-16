@@ -52,6 +52,8 @@ class FunSetSuite {
     val dall_12 = diff(union_all, u12)
     val fall_lt3 = filter(union_all, x => (x < 3))
     val fall_gt1 = filter(union_all, x => (x > 1))
+    val ms1_plus_one = map(s1, x => x + 1)
+    val mall_plus_five = map(union_all, x => x + 5)
   }
 
   /**
@@ -185,6 +187,20 @@ class FunSetSuite {
       assert(!exists(union_all, x => (x < 1)), "There does not exist an element in {1, 2, 3} < 1")
       assert(!exists(union_all, x => (x == 5)), "There does not exist an element in {1, 2, 3} == 5")
       assert(!exists(union_all, x => (x > 3)), "There does not exist an element in {1, 2, 3} > 3")
+    }
+  }
+
+  @Test def `map transforms sets correctly`: Unit = {
+    new TestSets {
+      assert(contains(ms1_plus_one, 2), "Map {1} + 1 => {2} contains 2")
+      assert(!contains(ms1_plus_one, 1), "Map {1} + 1 => {2} does not contain 1")
+      assert(forall(mall_plus_five, x => (x > 5)), "Map {1, 2, 3} + 5 => {6, 7, 8} all members > 5")
+      assert(forall(mall_plus_five, x => (x < 9)), "Map {1, 2, 3} + 5 => {6, 7, 8} all members < 9")
+      assert(contains(mall_plus_five, 6), "Map {1, 2, 3} + 5 => {6, 7, 8} contains 6")
+      assert(exists(mall_plus_five, x => (x == 7)), "Map {1, 2, 3} + 5 => {6, 7, 8} there exists member == 7")
+      assert(exists(mall_plus_five, x => (x == 8)), "Map {1, 2, 3} + 5 => {6, 7, 8} there exists member == 8")
+      assert(!exists(mall_plus_five, x => (x == 5)), "Map {1, 2, 3} + 5 => {6, 7, 8} there does not exist member == 5")
+      assert(!exists(mall_plus_five, x => (x == 9)), "Map {1, 2, 3} + 5 => {6, 7, 8} there does not exist member == 9")
     }
   }
 
