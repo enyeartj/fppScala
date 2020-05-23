@@ -14,13 +14,15 @@ class NonEmpty(elem: Int, left: IntSet, right: IntSet) extends IntSet {
     else if (x > elem) new NonEmpty(elem, left, right incl x)
     else this
   }
+  override def toString = "{" + left + elem + right + "}"
 }
 
-class Empty extends IntSet {
+object Empty extends IntSet {
   def contains(x: Int): Boolean = false
-  def incl(x: Int): IntSet = new NonEmpty(x, new Empty, new Empty)
+  def incl(x: Int): IntSet = new NonEmpty(x, Empty, Empty)
+  override def toString = "."
 }
 
 /* ------------------------------------------------------------------------------- */
-val t1 = new NonEmpty(3, new Empty, new Empty)
+val t1 = new NonEmpty(3, Empty, Empty)
 val t2 = t1 incl 4
