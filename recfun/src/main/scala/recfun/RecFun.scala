@@ -26,16 +26,12 @@ object RecFun extends RecFunInterface {
    */
   def balance(chars: List[Char]): Boolean = {
     @tailrec
-    def balanceIter(chars: List[Char], unclosedCount: Int): Boolean ={
-      if (chars.isEmpty) unclosedCount == 0
-      else if (chars.head == '(') balanceIter(chars.tail, unclosedCount + 1)
-      else if (chars.head == ')') {
-        if (unclosedCount > 0) balanceIter(chars.tail, unclosedCount - 1)
-        else false
-      }
-      else balanceIter(chars.tail, unclosedCount)
-    }
-    balanceIter(chars, 0)
+    def iter(chars: List[Char], unclosed_count: Int): Boolean =
+      if (chars.isEmpty || unclosed_count < 0) unclosed_count == 0
+      else if (chars.head == '(') iter(chars.tail, unclosed_count + 1)
+      else if (chars.head == ')') iter(chars.tail, unclosed_count - 1)
+      else iter(chars.tail, unclosed_count)
+    iter(chars, 0)
   }
 
   /**
