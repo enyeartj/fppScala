@@ -1,7 +1,5 @@
 package funsets
 
-import scala.annotation.tailrec
-
 /**
  * 2. Purely Functional Sets.
  */
@@ -20,26 +18,26 @@ trait FunSets extends FunSetsInterface {
   /**
    * Returns the set of the one given element.
    */
-  def singletonSet(elem: Int): FunSet = x => (elem == x)
+  def singletonSet(elem: Int): FunSet = x => x == elem
 
 
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
-  def union(s: FunSet, t: FunSet): FunSet = x => (contains(s, x) || contains(t,  x))
+  def union(s: FunSet, t: FunSet): FunSet = x => s(x) || t(x)
 
   /**
    * Returns the intersection of the two given sets,
    * the set of all elements that are both in `s` and `t`.
    */
-  def intersect(s: FunSet, t: FunSet): FunSet = x => (contains(s, x) && contains(t,  x))
+  def intersect(s: FunSet, t: FunSet): FunSet = x => s(x) && t(x)
 
   /**
    * Returns the difference of the two given sets,
    * the set of all elements of `s` that are not in `t`.
    */
-  def diff(s: FunSet, t: FunSet): FunSet = x => (contains(s, x) && !contains(t,  x))
+  def diff(s: FunSet, t: FunSet): FunSet = x => s(x) && !t(x)
 
   /**
    * Returns the subset of `s` for which `p` holds.
@@ -56,10 +54,9 @@ trait FunSets extends FunSetsInterface {
    * Returns whether all bounded integers within `s` satisfy `p`.
    */
   def forall(s: FunSet, p: Int => Boolean): Boolean = {
-    @tailrec
     def iter(a: Int): Boolean = {
       if (a > bound) true
-      else if (contains(s, a) && !contains(filter(s, p), a)) false
+      else if (diff(s, p)(a)) false
       else iter(a + 1)
     }
     iter(-bound)
@@ -74,7 +71,7 @@ trait FunSets extends FunSetsInterface {
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-  def map(s: FunSet, f: Int => Int): FunSet = x => exists(s, y => (f(y) == x))
+  def map(s: FunSet, f: Int => Int): FunSet = xfmed => exists(s, orig => xfmed == f(orig))
 
   /**
    * Displays the contents of a set
@@ -93,3 +90,4 @@ trait FunSets extends FunSetsInterface {
 }
 
 object FunSets extends FunSets
+
