@@ -34,3 +34,7 @@ val s1 = new NonEmpty(8, Empty, Empty)
 val s2 = s1 incl 2 incl 4 incl 15 incl 10 incl 5
 
 val x = t2 union s2
+
+val X = new NonEmpty(2, Empty, Empty) incl 1 incl 3
+val Y = new NonEmpty(5, Empty, Empty) incl 4 incl 6
+val Z = X union Y
