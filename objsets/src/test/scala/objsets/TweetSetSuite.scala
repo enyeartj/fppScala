@@ -48,19 +48,29 @@ class TweetSetSuite {
       assertEquals(4, size(set5.filter(tw => tw.retweets < 100)))
     }
 
-  @Ignore("Not ready yet") @Test def `union: set4c and set4d`: Unit =
+  @Test def `union: set4c and set4d`: Unit =
     new TestSets {
       assertEquals(4, size(set4c.union(set4d)))
     }
 
-  @Ignore("Not ready yet") @Test def `union: with empty set1`: Unit =
+  @Test def `union: with empty set1`: Unit =
     new TestSets {
       assertEquals(4, size(set5.union(set1)))
     }
 
-  @Ignore("Not ready yet") @Test def `union: with empty set2`: Unit =
+  @Test def `union: with empty set2`: Unit =
     new TestSets {
       assertEquals(4, size(set1.union(set5)))
+    }
+
+  @Test def `union: set2 and set3`: Unit =
+    new TestSets {
+      assertEquals(2, size(set2.union(set3)))
+    }
+
+  @Test def `union: set3 and set2`: Unit =
+    new TestSets {
+      assertEquals(2, size(set3.union(set2)))
     }
 
   @Ignore("Not ready yet") @Test def `descending: set5`: Unit =
