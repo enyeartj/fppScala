@@ -3,6 +3,7 @@ package objsets
 import org.junit._
 import org.junit.Assert.assertEquals
 
+
 class TweetSetSuite {
   trait TestSets {
     val set1 = new Empty
@@ -13,6 +14,8 @@ class TweetSetSuite {
     val set4c = set3.incl(c)
     val set4d = set3.incl(d)
     val set5 = set4c.incl(d)
+    val setMost1 = set1.incl(c)
+    val setMost2 = setMost1.incl(d)
   }
 
   def asSet(tweets: TweetSet): Set[Tweet] = {
@@ -71,6 +74,42 @@ class TweetSetSuite {
   @Test def `union: set3 and set2`: Unit =
     new TestSets {
       assertEquals(2, size(set3.union(set2)))
+    }
+
+  @Test def `mostRetweeted: set3`: Unit =
+    new TestSets {
+      assertEquals(20, set3.mostRetweeted.retweets)
+    }
+
+  @Test def `mostRetweeted: set4c`: Unit =
+    new TestSets {
+      assertEquals(20, set4c.mostRetweeted.retweets)
+    }
+
+  @Test def `mostRetweeted: set4d`: Unit =
+    new TestSets {
+      assertEquals(20, set4d.mostRetweeted.retweets)
+    }
+
+  @Test def `mostRetweeted: set5`: Unit =
+    new TestSets {
+      assertEquals(20, set5.mostRetweeted.retweets)
+    }
+
+  @Test def `mostRetweeted: setMost1`: Unit =
+    new TestSets {
+      assertEquals(7, setMost1.mostRetweeted.retweets)
+    }
+
+  @Test def `mostRetweeted: set2`: Unit =
+    new TestSets {
+      assertEquals(9, setMost2.mostRetweeted.retweets)
+    }
+
+  @Test(expected = classOf[java.util.NoSuchElementException])
+  def `mostRetweeted: empty throws java.util.NoSuchElementException`: Unit =
+    new TestSets {
+      set1.mostRetweeted
     }
 
   @Ignore("Not ready yet") @Test def `descending: set5`: Unit =
