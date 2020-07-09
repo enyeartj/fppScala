@@ -69,6 +69,10 @@ abstract class TweetSet extends TweetSetInterface {
 
   def mostRetweetedAcc(mostSoFar: Tweet): Tweet
 
+  def leastRetweeted: Tweet
+
+  def leastRetweetedAcc(leastSoFar: Tweet): Tweet
+
   def isEmpty: Boolean
 
   /**
@@ -80,7 +84,9 @@ abstract class TweetSet extends TweetSetInterface {
    * Question: Should we implement this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = descendingByRetweetAcc(Nil)
+
+  def descendingByRetweetAcc(acc: TweetList): TweetList
 
   /**
    * The following methods are already implemented
@@ -119,7 +125,13 @@ class Empty extends TweetSet {
 
   override def mostRetweetedAcc(mostSoFar: Tweet): Tweet = mostSoFar
 
+  override def leastRetweeted: Tweet = throw new java.util.NoSuchElementException("Empty Set")
+
+  override def leastRetweetedAcc(leastSoFar: Tweet): Tweet = leastSoFar
+
   override def isEmpty: Boolean = true
+
+  override def descendingByRetweetAcc(acc: TweetList): TweetList = acc
 
   /**
    * The following methods are already implemented
@@ -148,7 +160,16 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     if (elem.retweets > mostSoFar.retweets) left.mostRetweetedAcc(right.mostRetweetedAcc(elem))
     else left.mostRetweetedAcc(right.mostRetweetedAcc(mostSoFar))
 
+  override def leastRetweeted: Tweet = leastRetweetedAcc(elem)
+
+  override def leastRetweetedAcc(leastSoFar: Tweet): Tweet =
+    if (elem.retweets < leastSoFar.retweets) left.leastRetweetedAcc(right.leastRetweetedAcc(elem))
+    else left.leastRetweetedAcc(right.leastRetweetedAcc(leastSoFar))
+
   override def isEmpty: Boolean = false
+
+  override def descendingByRetweetAcc(acc: TweetList): TweetList =
+    remove(leastRetweeted).descendingByRetweetAcc(new Cons(leastRetweeted, acc))
 
 
   /**
