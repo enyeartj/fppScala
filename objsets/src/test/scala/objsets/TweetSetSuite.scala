@@ -16,6 +16,12 @@ class TweetSetSuite {
     val set5 = set4c.incl(d)
     val setMost1 = set1.incl(c)
     val setMost2 = setMost1.incl(d)
+    val e = new Tweet("e", "e body", 8)
+    val f = new Tweet("f", "f body", 11)
+    val g = new Tweet("g", "g body", 22)
+    val h = new Tweet("h", "h body", 1)
+    val setDesc1 = set1.incl(h).incl(c).incl(f).incl(d)
+    val setDesc2 = set1.incl(f).incl(d).incl(g).incl(e)
   }
 
   def asSet(tweets: TweetSet): Set[Tweet] = {
@@ -112,11 +118,25 @@ class TweetSetSuite {
       set1.mostRetweeted
     }
 
-  @Ignore("Not ready yet") @Test def `descending: set5`: Unit =
+  @Test def `descending: set5`: Unit =
     new TestSets {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
       assert(trends.head.user == "a" || trends.head.user == "b")
+    }
+
+  @Test def `descending: setDesc1`: Unit =
+    new TestSets {
+      val trends = setDesc1.descendingByRetweet
+      assert(!trends.isEmpty)
+      assert(trends.head.user == "f")
+    }
+
+  @Test def `descending: setDesc2`: Unit =
+    new TestSets {
+      val trends = setDesc2.descendingByRetweet
+      assert(!trends.isEmpty)
+      assert(trends.head.user == "g")
     }
 
 
