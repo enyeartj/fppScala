@@ -54,7 +54,7 @@ abstract class TweetSet extends TweetSetInterface {
    * Question: Should we implement this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def union(that: TweetSet): TweetSet
+  def union(that: TweetSet): TweetSet = that.filterAcc(t => true, this)
 
   /**
    * Returns the tweet from this set which has the greatest retweet count.
@@ -119,8 +119,6 @@ abstract class TweetSet extends TweetSetInterface {
 class Empty extends TweetSet {
   override def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
-  override def union(that: TweetSet): TweetSet = that
-
   override def mostRetweeted: Tweet = throw new java.util.NoSuchElementException("Empty Set")
 
   override def mostRetweetedAcc(mostSoFar: Tweet): Tweet = mostSoFar
@@ -151,8 +149,6 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   override def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet =
     if (p(elem)) left.filterAcc(p, right.filterAcc(p, acc.incl(elem)))
     else left.filterAcc(p, right.filterAcc(p, acc))
-
-  override def union(that: TweetSet): TweetSet = ((left union right) union that) incl elem
 
   override def mostRetweeted: Tweet = mostRetweetedAcc(elem)
 
@@ -227,7 +223,7 @@ object GoogleVsApple {
 
   def checkFor(l: List[String]): Tweet => Boolean = tw => l.exists(kw => tw.text.contains(kw))
 
-  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(checkFor(google))
+  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(t => t.retweets > 100)
   lazy val appleTweets: TweetSet = TweetReader.allTweets.filter(checkFor(apple))
 
   /**
