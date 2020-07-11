@@ -223,7 +223,7 @@ object GoogleVsApple {
 
   def checkFor(l: List[String]): Tweet => Boolean = tw => l.exists(kw => tw.text.contains(kw))
 
-  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(t => t.retweets > 100)
+  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(checkFor(google))
   lazy val appleTweets: TweetSet = TweetReader.allTweets.filter(checkFor(apple))
 
   /**
