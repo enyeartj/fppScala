@@ -27,20 +27,12 @@ nth(3, list)
 //nth(8, list) // IndexOutOfBoundsException
 
 object List {
-  def apply[T](): List[T] = new Nil
-  def apply[T](x: T): List[T] = new Cons(x, new Nil)
-  def apply[T](x: T, y: T): List[T] = new Cons(x, new Cons(y, new Nil))
+  def apply[T]() = new Nil
+  def apply[T](x: T) = new Cons(x, new Nil)
+  def apply[T](x: T, y: T) = new Cons(x, new Cons(y, new Nil))
 }
 
-val l0 = List()
-val l1 = List(1)
-val l2 = List(2, 3)
+List().isEmpty
+List(1).isEmpty
 
-l0.isEmpty
-l1.isEmpty
-
-nth(0, l2)
-nth(1, l2)
-
-val l_type = List
-val l_func = List()
+nth(0, List(2,3))
