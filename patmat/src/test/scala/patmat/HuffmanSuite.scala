@@ -17,10 +17,24 @@ class HuffmanSuite {
       assertEquals(5, weight(t1))
     }
 
+  @Test def `weight of t2`: Unit =
+    new TestTrees {
+      assertEquals(9, weight(t2))
+    }
 
-  @Ignore("not ready yet") @Test def `chars of a larger tree (10pts)`: Unit =
+  @Test def `chars of a larger tree (10pts)`: Unit =
     new TestTrees {
       assertEquals(List('a','b','d'), chars(t2))
+    }
+
+  @Test def `chars of t1`: Unit =
+    new TestTrees {
+      assertEquals(List('a', 'b'), chars(t1))
+    }
+
+  @Test def `chars of a Leaf`: Unit =
+    new TestTrees {
+      assertEquals(List('x'), chars(Leaf('x', 666)))
     }
 
   @Ignore("not ready yet") @Test def `string2chars hello world`: Unit =

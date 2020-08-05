@@ -26,7 +26,10 @@ trait Huffman extends HuffmanInterface {
     case Fork(l, r, cs, w) => weight(l) + weight(r)
   }
 
-  def chars(tree: CodeTree): List[Char] = ??? // tree match ...
+  def chars(tree: CodeTree): List[Char] = tree match {
+    case Leaf(c, w) => List(c)
+    case Fork(l, r, cs, w) => cs
+  }
 
   def makeCodeTree(left: CodeTree, right: CodeTree) =
     Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
